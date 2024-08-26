@@ -4,6 +4,7 @@ terraform {
     key = "terraform.tfstate"
     region = "us-east-1"
     encrypt = true 
+    #profile = "tobi"
   }
 }
 
@@ -89,7 +90,3 @@ resource "aws_eks_node_group" "eks_node_group" {
 output "endpoint" {
   value = aws_eks_cluster.eks_cluster.endpoint
 }
-
-
-
-
