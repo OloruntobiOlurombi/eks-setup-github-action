@@ -3,10 +3,10 @@ variable "region" {
     default = "us-east-1"
 }
 
-variable "profile" {
-  type = string
-  default = "tobi"
-}
+#variable "profile" {
+#  type = string
+#  default = "tobi"
+#}
 
 variable "bucket_name" {
     type = string 
