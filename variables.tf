@@ -13,6 +13,11 @@ variable "bucket_name" {
     default = "terraform-state-bucket-tobi"
 }
 
+variable "aws_access_key_id" {
+}
+
+variable "aws_secret_access_key" {}
+
 variable "tags_vpc" {
     type = string 
     default = "main-vpc-eks"
