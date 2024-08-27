@@ -60,7 +60,7 @@ jobs:
 
     - name: Get EC2 Public IP
       id: get_public_ip 
-      run: echo "EC2_PUBLIC_IP=$(terraform output -raw ec2_public_ip)"
+      run: echo "EC2_PUBLIC_IP=$(terraform output -raw ec2_public_ip)" >> $GITHUB_ENV
 
   InstallTools:
     runs-on: ubuntu-latest 
@@ -71,7 +71,7 @@ jobs:
 
       - name: SSH and Install AWS CLI and kubectl
         run: |
-          sshpass -p "${{ secrets.EC2_SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ec2-user@${{ env.EC2_PUBLIC_IP }} << EOF
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@${{ env.EC2_PUBLIC_IP }} << EOF
             sudo yum install -y unzip
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
