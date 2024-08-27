@@ -67,7 +67,11 @@ jobs:
     needs: TerraformApply
     steps:
       - name: Install SSH Client 
-        run: sudo apt-get update && sudo apt-get install -y sshpass   
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: SSH and Install AWS CLI and kubectl
         run: |
@@ -83,6 +87,10 @@ jobs:
             kubectl version --client
             aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
           EOF  
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
 
 
