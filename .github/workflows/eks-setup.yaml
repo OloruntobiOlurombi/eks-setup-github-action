@@ -111,7 +111,7 @@ jobs:
           fi
 
           kubectl version --client
-          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
+          #aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
         EOF
 
     - name: Verify EC2 Instance State 

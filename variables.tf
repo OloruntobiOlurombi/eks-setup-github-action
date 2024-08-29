@@ -177,3 +177,8 @@ variable "eks_node_group_role_name" {
     type = string 
     default = "eks-node-group-role"
 }
+
+variable "eks_describe_cluster_policy_name" {
+    type = string 
+    default = "eks-describe-cluster-policy"
+}

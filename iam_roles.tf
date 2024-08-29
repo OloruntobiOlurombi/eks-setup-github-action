@@ -98,3 +98,26 @@ resource "aws_iam_role_policy_attachment" "ec2_container_registry_readonly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_node_group_role.name
 }
+
+# Create a Policy That Allows The eks:DescribeCluster Action
+
+resource "aws_iam_policy" "eks_describe_cluster_policy" {
+  name        = var.eks_describe_cluster_policy_name
+  description = "Policy to allow describing EKS clusters"
+  policy      = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "eks:DescribeCluster"
+        Effect   = "Allow"
+        Resource = "arn:aws:eks:${var.region}:${data.aws_caller_identity.current.account_id}:cluster/${var.cluster_name}"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_describe_cluster_policy_attachment" {
+  role       = aws_iam_role.ec2_instance_role.name
+  policy_arn = aws_iam_policy.eks_describe_cluster_policy.arn
+}
+
