@@ -1,3 +1,6 @@
+# Declare the aws_caller_identity data source
+data "aws_caller_identity" "current" {}
+
 # IAM Role  For EC2
 resource "aws_iam_role" "ec2_instance_role" {
     name = var.ec2_instance_role_name
