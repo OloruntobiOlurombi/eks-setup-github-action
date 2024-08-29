@@ -44,12 +44,6 @@ jobs:
     - name: Apply Terraform
       run: terraform apply -auto-approve
 
-    - name: Ensure EC2 Public IP is Not Empty
-      if: ${{ env.EC2_PUBLIC_IP == '' }}
-      run: |
-        echo "Error: EC2 Public IP is empty. Exiting."
-        exit 1
-
     - name: Get EC2 Public IP
       id: get_public_ip
       run: |
@@ -61,6 +55,12 @@ jobs:
         fi
         echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
         echo "Captured EC2 Public IP: $EC2_PUBLIC_IP"
+
+    - name: Ensure EC2 Public IP is Not Empty
+      if: ${{ env.EC2_PUBLIC_IP == '' }}
+      run: |
+        echo "Error: EC2 Public IP is empty. Exiting."
+        exit 1    
 
     - name: Verify EC2 Instance State 
       run: |
