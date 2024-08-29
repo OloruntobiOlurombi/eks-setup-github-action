@@ -44,10 +44,6 @@ jobs:
     - name: Apply Terraform
       run: terraform apply -auto-approve
 
-    - name: Verify EC2 Instance State 
-      run: |
-        aws ec2 describe-instances --instance-ids $(terraform output -raw ec2_instance_id) --query 'Reservations[*].Instances[*].State.Name' --output text  
-
     - name: Ensure EC2 Public IP is Not Empty
       if: ${{ env.EC2_PUBLIC_IP == '' }}
       run: |
@@ -65,6 +61,15 @@ jobs:
         fi
         echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
         echo "Captured EC2 Public IP: $EC2_PUBLIC_IP"
+
+    - name: Verify EC2 Instance State 
+      run: |
+        INSTANCE_STATE=$(aws ec2 describe-instances --instance-ids $(terraform output -raw ec2_instance_id) --query 'Reservations[*].Instances[*].State.Name' --output text)  
+        echo "EC2 Instance State: $INSTANCE_STATE"
+        if [[ "$INSTANCE_STATE" != "running" ]]; then
+          echo "Error: EC2 instance is not running."
+          exit 1
+        fi    
 
   InstallTools:
     runs-on: ubuntu-latest
