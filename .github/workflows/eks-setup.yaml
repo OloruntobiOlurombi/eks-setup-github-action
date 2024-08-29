@@ -62,7 +62,7 @@ jobs:
         echo "Error: EC2 Public IP is empty. Exiting."
         exit 1    
 
-      - name: Install SSH Client
+    - name: Install SSH Client
       run: sudo apt-get update && sudo apt-get install -y sshpass
 
     - name: Setup SSH Key
