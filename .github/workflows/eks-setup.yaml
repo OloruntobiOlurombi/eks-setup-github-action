@@ -113,9 +113,9 @@ jobs:
           kubectl version --client
           aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
         EOF
-        
+
     - name: Verify EC2 Instance State 
-        run: |
+      run: |
         INSTANCE_STATE=$(aws ec2 describe-instances --instance-ids $(terraform output -raw ec2_instance_id) --query 'Reservations[*].Instances[*].State.Name' --output text)  
         echo "EC2 Instance State: $INSTANCE_STATE"
         if [[ "$INSTANCE_STATE" != "running" ]]; then
